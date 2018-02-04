@@ -1,6 +1,6 @@
 # SPA-scrapper
 
-A simple tool for crawling the site of the SPA to retrieve all currently available dogs for adoption.
+A simple tool for crawling the site of the SPA to retrieve all currently available cats for adoption.
 The idea is to feed all the information to a Machine Learning algorithm to help and promote the adoption.
 
 # Installation
@@ -20,11 +20,10 @@ Due to the fair amount of new dogs every day, this script is recommended to run 
 $ cd spa-scrapper
 $ source venv/bin/activate
 $ cd spa
-$ scrapy crawl dogs -o output.json
+$ scrapy crawl cats -o output.json
 ```
 
 # Output
 the output can be found inside the folder `spa`:
-* The file `output.json` contains all the data of each dog (name, gender, direct url ,shelter, etc)
+* The file `output.json` contains all the data of each cat (name, gender, direct url ,shelter, etc)
 * The folder `images` contains all the images linked to the json
-
