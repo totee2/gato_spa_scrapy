@@ -5,10 +5,10 @@ from scrapy import Request
 from spa.items import SpaItem
 
 
-class DogsSpider(scrapy.Spider):
-    name = 'dogs'
+class CatsSpider(scrapy.Spider):
+    name = 'cats'
     allowed_domains = ['la-spa.fr']
-    start_urls = ['https://www.la-spa.fr/adopter-animaux?field_esp_ce_value=2&field_race_value=&_field_localisation=refuge&_field_distance=All&field_refuge_animal_target_id=All&_field_adresse=&field_departement_refuge_tid=All&field_sexe_value=All&field_taille_value=All&title_1=&field_sauvetage_value=All&_field_age_value=']
+    start_urls = ['https://www.la-spa.fr/adopter-animaux?field_esp_ce_value=1&field_race_value=&_field_localisation=refuge&field_departement_refuge_tid=All&field_sexe_value=All&field_taille_value=All&title_1=&field_sauvetage_value=All&_field_age_value=&_field_adresse=']
 
     def parse(self, response):
         results = response.xpath('//div[@class="block-result-search "]')
@@ -22,8 +22,8 @@ class DogsSpider(scrapy.Spider):
             img = result.xpath('.//img/@src').extract_first()
             short_name = result.xpath('.//div[@class="field-item even"]/text()').extract_first()
             refuge_name = result.xpath('.//span[@class="refuge-name"]/a/text()').extract_first()
-            doggo = {'URL': url, 'img': img, 'short_name': short_name, 'refuge_name': refuge_name}
-            details = Request(url, callback=self.parse_doggo, meta=doggo)
+            gato = {'URL': url, 'img': img, 'short_name': short_name, 'refuge_name': refuge_name}
+            details = Request(url, callback=self.parse_gato, meta=gato)
 
             yield details
 
@@ -32,7 +32,7 @@ class DogsSpider(scrapy.Spider):
             absolute_next_url = "https://www.la-spa.fr" + relative_next_url
             yield Request(absolute_next_url, callback=self.parse)
 
-    def parse_doggo(self, response):
+    def parse_gato(self, response):
         name = response.xpath('//div[@class="field field-name-field-esp-ce field-type-list-text field-label-inline clearfix"]/div[@class="field-items"]/text()').extract_first()
         breed = response.xpath('//div[@class="field field-name-field-race field-type-text field-label-inline clearfix"]/div[@class="field-items"]/div/text()').extract_first()
         size = response.xpath('//div[@class="field field-name-field-taille field-type-list-text field-label-inline clearfix"]/div[@class="field-items"]/div/text()').extract_first()
@@ -40,7 +40,7 @@ class DogsSpider(scrapy.Spider):
         birthday = response.xpath('//div[@class="field field-name-field-date-naissance field-type-text field-label-inline clearfix"]/div[@class="field-items"]/div/text()').extract_first()
         description = response.xpath('//div[@class="field field-name-body field-type-text-with-summary field-label-hidden"]/div/div/p/text()').extract_first()
 
-        image_array = response.xpath('//div[@class="content col-xs-12 col-sm-8 left-bar dog"]//img[contains(@src, "itok")]/@src').extract()
+        image_array = response.xpath('//div[@class="content col-xs-12 col-sm-8 left-bar cat"]//img[contains(@src, "itok")]/@src').extract()
 
         url = response.meta.get('URL')
         img = response.meta.get('img')
